@@ -1,13 +1,13 @@
 package codes.c1moore.refresher.trie;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Trie builds off of and improves SimpleTrie.  Trie allows duplicate
- * Strings and a dynamic alphabet.  Instead of defining a static
- * alphabet size and Function that can convert a char to an index
- * in the range of [0, ALPHABET_SIZE), Trie supports any legal char
- * supported by Java.
+ * Trie builds off of and improves SimpleTrie. Trie allows duplicate Strings and
+ * a dynamic alphabet. Instead of defining a static alphabet size and Function
+ * that can convert a char to an index in the range of [0, ALPHABET_SIZE), Trie
+ * supports any legal char supported by Java.
  */
 public class Trie {
 	private final TrieNode HEAD;
@@ -20,7 +20,8 @@ public class Trie {
 	}
 
 	/**
-	 * Adds str to this Trie.  If str has already been added to this Trie, a duplicate is stored.
+	 * Adds str to this Trie. If str has already been added to this Trie, a
+	 * duplicate is stored.
 	 * 
 	 * @param str the String to add to the Trie
 	 */
@@ -73,12 +74,13 @@ public class Trie {
 	}
 
 	/**
-	 * Returns true if str has been inserted into this Trie or a String with a prefix of str has
-	 * been inserted into this Trie.
+	 * Returns true if str has been inserted into this Trie or a String with a
+	 * prefix of str has been inserted into this Trie.
 	 * 
 	 * @param str the String to search for
 	 * 
-	 * @return true iff str is a prefix of or represents a complete String inserted into this Trie
+	 * @return true iff str is a prefix of or represents a complete String inserted
+	 *         into this Trie
 	 */
 	public boolean contains(String str) {
 		TrieNode currentNode = HEAD;
@@ -95,8 +97,8 @@ public class Trie {
 	}
 
 	/**
-	 * Counts the number of times str has been inserted into this Trie.  This method does not count the number
-	 * of times str appears as a prefix to other Strings.
+	 * Counts the number of times str has been inserted into this Trie. This method
+	 * does not count the number of times str appears as a prefix to other Strings.
 	 * 
 	 * @param str the String of interest
 	 * 
@@ -117,8 +119,8 @@ public class Trie {
 	}
 
 	/**
-	 * Removes a single occurrence of str.  Strings that contain str as a substring will not
-	 * be affected.
+	 * Removes a single occurrence of str. Strings that contain str as a substring
+	 * will not be affected.
 	 * 
 	 * @param str the String to remove
 	 */
@@ -134,20 +136,20 @@ public class Trie {
 				return;
 			}
 		}
-		
+
 		if(currentNode.getTerminalCount() <= 0) {
 			return;
 		}
 
 		currentNode.decrementTerminalCount();
-		
-		for(int index = str.length() -1; currentNode != HEAD; index--) {
+
+		for(int index = str.length() - 1; currentNode != HEAD; index--) {
 			currentNode.decrementOccurrenceCount();
-			
+
 			int charCount = currentNode.getOccurrenceCount();
-			
+
 			currentNode = currentNode.getParent();
-			
+
 			if(charCount == 0) {
 				currentNode.removeChild(str.charAt(index));
 			}
@@ -155,8 +157,8 @@ public class Trie {
 	}
 
 	/**
-	 * Removes all insertions of str from this Trie.  Strings that contain str as a substring will not
-	 * be affected.
+	 * Removes all insertions of str from this Trie. Strings that contain str as a
+	 * substring will not be affected.
 	 * 
 	 * @param str the String that should be removed from the Trie
 	 */
@@ -172,22 +174,22 @@ public class Trie {
 				return;
 			}
 		}
-		
+
 		int totalOccurrences = currentNode.getTerminalCount();
-		
+
 		if(totalOccurrences <= 0) {
 			return;
 		}
 
 		currentNode.decrementTerminalCount(totalOccurrences);
-		
-		for(int index = str.length() -1; currentNode != HEAD; index--) {
+
+		for(int index = str.length() - 1; currentNode != HEAD; index--) {
 			currentNode.decrementOccurrenceCount(totalOccurrences);
-			
+
 			int charCount = currentNode.getOccurrenceCount();
-			
+
 			currentNode = currentNode.getParent();
-			
+
 			if(charCount == 0) {
 				currentNode.removeChild(str.charAt(index));
 			}
@@ -211,11 +213,11 @@ public class Trie {
 		 */
 		public TrieNode(TrieNode parent) {
 			this.parent = parent;
-			
+
 			occurrenceCount = 0;
 			terminalCount = 0;
 		}
-		
+
 		/**
 		 * Returns this TrieNode's parent node.
 		 * 
@@ -263,7 +265,7 @@ public class Trie {
 			if(child == null) {
 				return;
 			}
-			
+
 			child.parent = null;
 			children.remove(c);
 		}
@@ -294,7 +296,8 @@ public class Trie {
 		}
 
 		/**
-		 * Decrements the count of the total number of Strings that end at this TrieNode.
+		 * Decrements the count of the total number of Strings that end at this
+		 * TrieNode.
 		 * 
 		 * @throws (IllegalStateException) If the terminal count is already 0
 		 */
@@ -307,7 +310,8 @@ public class Trie {
 		}
 
 		/**
-		 * Decrements the count of the total number of Strings that end at this TrieNode.
+		 * Decrements the count of the total number of Strings that end at this
+		 * TrieNode.
 		 * 
 		 * @throws (IllegalStateException) If value is greater than the terminal count.
 		 * 
@@ -322,11 +326,11 @@ public class Trie {
 		}
 
 		/**
-		 * Returns the total number of Strings that contain this character after all
-		 * of its ancestors.
+		 * Returns the total number of Strings that contain this character after all of
+		 * its ancestors.
 		 * 
 		 * @return the total number of Strings in this Trie that contain this character
-		 *  after the prefix formed by its ancestors
+		 *         after the prefix formed by its ancestors
 		 */
 		public int getOccurrenceCount() {
 			return occurrenceCount;

@@ -3,14 +3,15 @@ package codes.c1moore.refresher.trie;
 import java.util.function.Function;
 
 /**
- * Implements a simple Trie tree.  This implementation uses a static sized array of length
- * ALPHABET_SIZE as specified when the SimpleTrie is created.  This is the implementation
- * commonly found in introductory books on the subject and simple examples around the web.
+ * Implements a simple Trie tree. This implementation uses a static sized array
+ * of length ALPHABET_SIZE as specified when the SimpleTrie is created. This is
+ * the implementation commonly found in introductory books on the subject and
+ * simple examples around the web.
  * 
- * To improve the flexibility of the Trie, the Trie will accept a Function that can
- * convert chars to indices in an array.  Instead of supporting all characters all the
- * time, this allows SimpleTrie to support simplified alphabets with less space
- * requirements.
+ * To improve the flexibility of the Trie, the Trie will accept a Function that
+ * can convert chars to indices in an array. Instead of supporting all
+ * characters all the time, this allows SimpleTrie to support simplified
+ * alphabets with less space requirements.
  */
 public class SimpleTrie {
 	private final int ALPHABET_SIZE;
@@ -21,9 +22,10 @@ public class SimpleTrie {
 	/**
 	 * Creates a new SimpleTrie tree.
 	 *
-	 * @param alphabetSize the total number of legal characters that appear in the alphabet
-	 * @param charToIndex a Function that converts a legal char to an int index.  The index
-	 *  must be in the range [0,alphabetSize)
+	 * @param alphabetSize the total number of legal characters that appear in the
+	 *            alphabet
+	 * @param charToIndex a Function that converts a legal char to an int index. The
+	 *            index must be in the range [0,alphabetSize)
 	 */
 	public SimpleTrie(int alphabetSize, Function<Character, Integer> charToIndex) {
 		ALPHABET_SIZE = alphabetSize;
@@ -33,7 +35,8 @@ public class SimpleTrie {
 	}
 
 	/**
-	 * Adds str to the SimpleTrie, if it does not already exist. str must not be null.
+	 * Adds str to the SimpleTrie, if it does not already exist. str must not be
+	 * null.
 	 *
 	 * @throws NullPointerException thrown if str is null
 	 *
@@ -84,7 +87,7 @@ public class SimpleTrie {
 
 		return currentNode.isTerminal();
 	}
-	
+
 	/**
 	 * Determines if str is a prefix of a String stored in this Trie.
 	 * 
@@ -105,9 +108,10 @@ public class SimpleTrie {
 
 		return true;
 	}
-	
+
 	/**
-	 * Removes str from this SimpleTrie.  str will not be removed if it is a prefix of another word.
+	 * Removes str from this SimpleTrie. str will not be removed if it is a prefix
+	 * of another word.
 	 * 
 	 * @param str the String to remove
 	 */
@@ -123,28 +127,29 @@ public class SimpleTrie {
 				return;
 			}
 		}
-		
+
 		if(!currentNode.isTerminal()) {
 			return;
 		}
-		
+
 		currentNode.setTerminal(false);
-		
-		for(int index = str.length() -1; currentNode != HEAD; index--) {
+
+		for(int index = str.length() - 1; currentNode != HEAD; index--) {
 			if(currentNode.hasChildren() || currentNode.isTerminal()) {
 				break;
 			}
-			
+
 			currentNode = currentNode.getParent();
-			
+
 			currentNode.removeChild(str.charAt(index));
 		}
 	}
 
 	/**
-	 * TrieNode represents a node within the SimpleTrie tree.  Instead of having different node
-	 * types for branch and leaf nodes or a special character to indicate the end of String,
-	 * the TrieNode can be marked as terminal if a String ends at this node.
+	 * TrieNode represents a node within the SimpleTrie tree. Instead of having
+	 * different node types for branch and leaf nodes or a special character to
+	 * indicate the end of String, the TrieNode can be marked as terminal if a
+	 * String ends at this node.
 	 */
 	private class TrieNode {
 		TrieNode parent;
@@ -155,14 +160,14 @@ public class SimpleTrie {
 
 		public TrieNode(TrieNode parent) {
 			this.parent = parent;
-			
+
 			for(int index = 0; index < ALPHABET_SIZE; index++) {
 				children[index] = null;
 			}
 
 			terminal = false;
 		}
-		
+
 		/**
 		 * Returns the parent of this TrieNode.
 		 * 
@@ -182,7 +187,7 @@ public class SimpleTrie {
 		}
 
 		/**
-		 * Adds a child node for this TrieNode for character c.  If a child node already
+		 * Adds a child node for this TrieNode for character c. If a child node already
 		 * exists for c, an error is thrown.
 		 *
 		 * @throws IllegalStateError thrown if a child node already exists for c
@@ -198,7 +203,7 @@ public class SimpleTrie {
 			children[charToIndex.apply(c)] = child;
 			totalChildren++;
 		}
-		
+
 		/**
 		 * Removes this TrieNode's child for c.
 		 * 
@@ -208,7 +213,7 @@ public class SimpleTrie {
 			children[charToIndex.apply(c)] = null;
 			totalChildren--;
 		}
-		
+
 		/**
 		 * Returns true iff this TrieNode has at least one child.
 		 * 
@@ -228,7 +233,7 @@ public class SimpleTrie {
 		}
 
 		/**
-		 * Marks this TrieNode as a terminal node.  That is, this node will be recognized
+		 * Marks this TrieNode as a terminal node. That is, this node will be recognized
 		 * as the last node for at least one string.
 		 * 
 		 * @param terminal true iff this TrieNode is a terminal node

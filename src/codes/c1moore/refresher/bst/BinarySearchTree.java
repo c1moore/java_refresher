@@ -6,13 +6,14 @@ import java.util.List;
 import codes.c1moore.refresher.common.Comparison;
 
 /**
- * BinarySearchTree represents a simple, unbalanced BST.  All operations are worse-case
- * O(n) with expected-case of O(log(n)).
+ * BinarySearchTree represents a simple, unbalanced BST. All operations are
+ * worse-case O(n) with expected-case of O(log(n)).
  * 
- * BinarySearchTree uses an approach for ordering similar to other standard Java classes
- * in that it accepts an optional Comparator that can be passed to the constructor.  If
- * a Comparator is specified, it will be used for all Comparisons.  If a Comparator is
- * not specified, all elements in the tree must implement Comparable.
+ * BinarySearchTree uses an approach for ordering similar to other standard Java
+ * classes in that it accepts an optional Comparator that can be passed to the
+ * constructor. If a Comparator is specified, it will be used for all
+ * Comparisons. If a Comparator is not specified, all elements in the tree must
+ * implement Comparable.
  */
 public class BinarySearchTree<T> {
 	private BiDirectionalBinaryTreeNode<T> head;
@@ -51,8 +52,8 @@ public class BinarySearchTree<T> {
 	}
 
 	/**
-	 * Creates a BinarySearchTree initialized with data.  Comparator will be used for all
-	 * comparison related to the new BinarySearchTree.
+	 * Creates a BinarySearchTree initialized with data. Comparator will be used for
+	 * all comparison related to the new BinarySearchTree.
 	 *
 	 * @param data the items to insert in the BinarySearchTree
 	 * @param comparator a Comparator that should be used to compare items
@@ -79,8 +80,8 @@ public class BinarySearchTree<T> {
 	}
 
 	/**
-	 * Creates a BinarySearchTree initialized with data.  Comparator will be used for all
-	 * comparison related to the new BinarySearchTree.
+	 * Creates a BinarySearchTree initialized with data. Comparator will be used for
+	 * all comparison related to the new BinarySearchTree.
 	 *
 	 * @param data the items to insert in the BinarySearchTree
 	 * @param comparator a Comparator that should be used to compare items
@@ -110,7 +111,7 @@ public class BinarySearchTree<T> {
 		BinaryTreeNode<T> currentNode = head;
 
 		Comparison comparison;
-		
+
 		do {
 			parentNode = currentNode;
 
@@ -190,11 +191,11 @@ public class BinarySearchTree<T> {
 	 */
 	public void remove(T item) {
 		BiDirectionalBinaryTreeNode<T> node = findNode(item);
-		
+
 		if(node == null) {
 			return;
 		}
-		
+
 		BiDirectionalBinaryTreeNode<T> replacement;
 
 		if(node.rightChild == null) {
@@ -213,14 +214,14 @@ public class BinarySearchTree<T> {
 				replacement.rightChild = node.rightChild;
 			}
 		}
-		
+
 		if(replacement != null) {
 			replacement.parent = node.parent;
 		}
 
 		if(node == head) {
 			head = replacement;
-			
+
 			return;
 		}
 
@@ -252,9 +253,9 @@ public class BinarySearchTree<T> {
 
 		return currentNode;
 	}
-	
+
 	/**
-	 * Finds root's successor.  If root has no successor, null is returned.
+	 * Finds root's successor. If root has no successor, null is returned.
 	 * 
 	 * @param root the node for which a successor should be found
 	 * 
@@ -264,12 +265,12 @@ public class BinarySearchTree<T> {
 		if(root.rightChild == null) {
 			return null;
 		}
-		
+
 		BiDirectionalBinaryTreeNode<T> successor = (BiDirectionalBinaryTreeNode<T>) root.rightChild;
 		while(successor.leftChild != null) {
 			successor = (BiDirectionalBinaryTreeNode<T>) successor.leftChild;
 		}
-		
+
 		return successor;
 	}
 
@@ -301,7 +302,7 @@ public class BinarySearchTree<T> {
 		if(comparisonMade) {
 			return Comparison.create(comparison);
 		}
-		
+
 		throw new ClassCastException("Element cannot be compared.");
 	}
 }
