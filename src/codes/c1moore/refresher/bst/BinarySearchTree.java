@@ -16,7 +16,7 @@ import codes.c1moore.refresher.common.Comparison;
  * implement Comparable.
  */
 public class BinarySearchTree<T> {
-	private BiDirectionalBinaryTreeNode<T> head;
+	private BinaryTreeNode<T> head;
 	private Comparator<T> comparator;
 
 	/**
@@ -101,7 +101,7 @@ public class BinarySearchTree<T> {
 	 */
 	public void insert(T item) {
 		if(head == null) {
-			head = new BiDirectionalBinaryTreeNode<>();
+			head = new BinaryTreeNode<>();
 			head.item = item;
 
 			return;
@@ -124,7 +124,7 @@ public class BinarySearchTree<T> {
 			}
 		} while(currentNode != null);
 
-		BiDirectionalBinaryTreeNode<T> node = new BiDirectionalBinaryTreeNode<>();
+		BinaryTreeNode<T> node = new BinaryTreeNode<>();
 		node.parent = parentNode;
 		node.item = item;
 
@@ -190,18 +190,18 @@ public class BinarySearchTree<T> {
 	 * @param item the item to remove
 	 */
 	public void remove(T item) {
-		BiDirectionalBinaryTreeNode<T> node = findNode(item);
+		BinaryTreeNode<T> node = findNode(item);
 
 		if(node == null) {
 			return;
 		}
 
-		BiDirectionalBinaryTreeNode<T> replacement;
+		BinaryTreeNode<T> replacement;
 
 		if(node.rightChild == null) {
-			replacement = (BiDirectionalBinaryTreeNode<T>) node.leftChild;
+			replacement = (BinaryTreeNode<T>) node.leftChild;
 		} else if(node.leftChild == null) {
-			replacement = (BiDirectionalBinaryTreeNode<T>) node.rightChild;
+			replacement = (BinaryTreeNode<T>) node.rightChild;
 		} else {
 			replacement = findSuccessor(node);
 
@@ -239,15 +239,15 @@ public class BinarySearchTree<T> {
 	 *
 	 * @return the node that is storing item or null if no node is storing item
 	 */
-	private BiDirectionalBinaryTreeNode<T> findNode(T item) {
-		BiDirectionalBinaryTreeNode<T> currentNode = head;
+	private BinaryTreeNode<T> findNode(T item) {
+		BinaryTreeNode<T> currentNode = head;
 		Comparison comparison;
 
 		while(currentNode != null && (comparison = compare(item, currentNode.item)) != Comparison.EQUAL) {
 			if(comparison == Comparison.LESS) {
-				currentNode = (BiDirectionalBinaryTreeNode<T>) currentNode.leftChild;
+				currentNode = currentNode.leftChild;
 			} else {
-				currentNode = (BiDirectionalBinaryTreeNode<T>) currentNode.rightChild;
+				currentNode = currentNode.rightChild;
 			}
 		}
 
@@ -261,14 +261,14 @@ public class BinarySearchTree<T> {
 	 * 
 	 * @return root's successor or null if root has no successor
 	 */
-	private BiDirectionalBinaryTreeNode<T> findSuccessor(BinaryTreeNode<T> root) {
+	private BinaryTreeNode<T> findSuccessor(BinaryTreeNode<T> root) {
 		if(root.rightChild == null) {
 			return null;
 		}
 
-		BiDirectionalBinaryTreeNode<T> successor = (BiDirectionalBinaryTreeNode<T>) root.rightChild;
+		BinaryTreeNode<T> successor = root.rightChild;
 		while(successor.leftChild != null) {
-			successor = (BiDirectionalBinaryTreeNode<T>) successor.leftChild;
+			successor = successor.leftChild;
 		}
 
 		return successor;
